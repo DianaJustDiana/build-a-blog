@@ -32,13 +32,24 @@ class Blog(db.Model):
 def index():
     blogs = Blog.query.all()
 
-    if request.method == 'POST':
-        entry_name = request.form['blog']
-        new_entry = Blog(entry_name)
-        db.session.add(new_entry)
-        db.session.commit()
-
     return render_template('index.html',title="Grr", blogs=blogs)
+
+@app.route('/new_post', methods=['POST', 'GET'])
+def new_post():
+
+    if request.method == 'POST':
+        title = request.form['blog-title']
+        body = request.form['blog-body']
+        new_entry = Blog(title, body)
+        db.session.add(new_entry)
+        db.session.flush()
+        db.session.commit()
+    
+        return redirect('/')
+
+    return render_template('new_post.html')
+
+
 
 """
 class Task(db.Model):
