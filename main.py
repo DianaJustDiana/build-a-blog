@@ -40,10 +40,13 @@ def new_post():
     if request.method == 'POST':
         title = request.form['blog-title']
         body = request.form['blog-body']
-        if len(title) == 0 or len(body) == 0:
-            flash('Oops! You forgot to include both a title and the body of your blog entry.', 'error')
-            return redirect('/newpost')
-        
+        if len(title) == 0:
+            flash('Oops! You forgot to put a title on your blog entry.', 'error')
+            return render_template('new_post.html', body=blog-body)
+        elif len(body) == 0:
+            flash('Not so fast! Nice title, but where is your body copy?', 'error')
+            return render_template('new_post.html', title=blog-title)
+
         new_entry = Blog(title, body)
         db.session.add(new_entry)
         db.session.flush()
