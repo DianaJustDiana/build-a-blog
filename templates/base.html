@@ -4,7 +4,11 @@
         <title>{{title}}</title>
     </head>
 <body>
-    
+    <nav>
+        <a href="/blog">View all blog entries</a> |
+        <a href="/newpost">Add new blog entry</a> 
+       
+    </nav>
     
     {% with messages = get_flashed_messages(with_categories=True) %}
     <ul>
