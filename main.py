@@ -28,13 +28,13 @@ class Blog(db.Model):
         self.title = title
         self.body = body
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/blog', methods=['POST', 'GET'])
 def index():
     blogs = Blog.query.all()
 
     return render_template('index.html',title="Grr", blogs=blogs)
 
-@app.route('/new_post', methods=['POST', 'GET'])
+@app.route('/newpost', methods=['POST', 'GET'])
 def new_post():
 
     if request.method == 'POST':
