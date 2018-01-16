@@ -40,17 +40,22 @@ def new_post():
     if request.method == 'POST':
         title = request.form['blog-title']
         body = request.form['blog-body']
+        if len(title) == 0 or len(body) == 0:
+            flash('Oops! You forgot to include both a title and the body of your blog entry.', 'error')
+            return redirect('/newpost')
+        
         new_entry = Blog(title, body)
         db.session.add(new_entry)
         db.session.flush()
         db.session.commit()
     
-        return redirect('/')
+        return redirect('/blog')
 
     return render_template('new_post.html')
 
 
-
+        
+          
 """
 class Task(db.Model):
 
