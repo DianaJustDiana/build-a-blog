@@ -32,27 +32,31 @@ class Blog(db.Model):
 def index():
     blogs = Blog.query.all()
 
-    return render_template('index.html',title="Grr", blogs=blogs)
+    return render_template('index.html', title="Grr", blogs=blogs)
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def new_post():
 
     if request.method == 'POST':
-        title = request.form['blog-title']
-        body = request.form['blog-body']
-        if len(title) == 0:
+        title = request.form['title']
+        body = request.form['body']
+        if len(title) == 0 and len(body) == 0:
+            flash("Whoa, slow down! You were a little quick to hit that button.", 'error')
+            return render_template('new_post.html')        
+        elif len(title) == 0:
             flash('Oops! You forgot to put a title on your blog entry.', 'error')
-            return render_template('new_post.html', body=blog-body)
+            return render_template('new_post.html', body=body)
         elif len(body) == 0:
             flash('Not so fast! Nice title, but where is your body copy?', 'error')
-            return render_template('new_post.html', title=blog-title)
+            return render_template('new_post.html', title=title)
 
-        new_entry = Blog(title, body)
-        db.session.add(new_entry)
-        db.session.flush()
-        db.session.commit()
+        else:
+            new_entry = Blog(title, body)
+            db.session.add(new_entry)
+            db.session.flush()
+            db.session.commit()
     
-        return redirect('/blog')
+            return redirect('/blog')
 
     return render_template('new_post.html')
 
