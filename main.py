@@ -56,12 +56,14 @@ def new_post():
             return render_template('new_post.html', title=title)
 
         else:
+
             new_entry = Blog(title, body)
             db.session.add(new_entry)
             db.session.flush()
             db.session.commit()
-    
-            return redirect('/blog')
+
+            single_id = new_entry.id
+            return redirect("/blog?id={0}".format(single_id))
 
     return render_template('new_post.html')
 
